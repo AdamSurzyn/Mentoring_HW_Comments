@@ -6,32 +6,63 @@ class Table {
     this.htmlCreate = new AddHtmlElement();
   }
 
-  addRow(table, rowData) {
-    const row = this.htmlCreate.addElement(table, {}, "tr", "");
+  addRow(table, rowData, id) {
+    const rowObj = {
+      container: table,
+      text: "",
+      htmlClass: "comment-row",
+      type: "tr",
+      id: `row${id}`,
+    };
+    const row = this.htmlCreate.addElement(rowObj);
     rowData.map((cell) => {
       this.addCell(row, cell);
     });
     table.appendChild(row);
     return row;
   }
-  removeRow(rowId) {
-    const rowToRemove = document.querySelector(`#${rowId}`);
-    this.container.removeChild(rowToRemove);
+  removeRow(rowId, table) {
+    const rowToRemove = document.querySelector(`#row${rowId}`);
+    table.removeChild(rowToRemove);
   }
   createTable() {
-    const table = this.htmlCreate.addElement(this.container, {}, "table", "");
+    const tableObj = {
+      container: this.container,
+      text: "",
+      htmlClass: "comments-table",
+      type: "table",
+    };
+    const table = this.htmlCreate.addElement(tableObj);
     return table;
   }
   addHeader(table, headerData) {
-    const header = this.htmlCreate.addElement(table, {}, "th", "");
+    const headerRowObj = {
+      container: table,
+      text: "",
+      htmlClass: "header-row",
+      type: "tr",
+    };
+    const headerRow = this.htmlCreate.addElement(headerRowObj);
     headerData.map((cell) => {
-      this.addCell(header, cell);
+      let headerCellObj = {
+        container: headerRow,
+        text: cell,
+        htmlClass: "",
+        type: "th",
+      };
+      this.htmlCreate.addElement(headerCellObj);
     });
-    table.appendChild(header);
-    return header;
+    table.appendChild(headerRow);
+    return headerRow;
   }
   addCell(row, text) {
-    const cell = this.htmlCreate.addElement(row, {}, "td", text);
+    const cellObj = {
+      container: row,
+      text: text,
+      htmlClass: "",
+      type: "td",
+    };
+    const cell = this.htmlCreate.addElement(cellObj);
     row.appendChild(cell);
     return cell;
   }
@@ -39,6 +70,7 @@ class Table {
   highlightBlasphemy() {}
 
   addTableToContainer(table) {
+    this.container.replaceChildren();
     this.container.appendChild(table);
   }
 }

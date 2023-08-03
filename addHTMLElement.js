@@ -1,7 +1,7 @@
 class AddHtmlElement {
   constructor() {}
 
-  addElement(container, elementObj, type, text) {
+  addElement({ container, type, text, htmlClass, ...elementObj }) {
     let htmlElement;
     switch (type) {
       case "div":
@@ -37,6 +37,7 @@ class AddHtmlElement {
         for (const attribute in elementObj) {
           htmlElement.setAttribute(attribute, elementObj[attribute]);
         }
+        htmlElement.innerHTML = text;
         container.appendChild(htmlElement);
         return htmlElement;
       case "table":
@@ -50,6 +51,9 @@ class AddHtmlElement {
         return htmlElement;
       case "tr":
         htmlElement = document.createElement("tr");
+        for (const attribute in elementObj) {
+          htmlElement.setAttribute(attribute, elementObj[attribute]);
+        }
         container.appendChild(htmlElement);
         return htmlElement;
       case "th":

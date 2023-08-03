@@ -11,18 +11,33 @@ async function renderMain() {
 
 function addCommentsTable(comments) {
   const tableContainer = addTableContainer();
+  const htmlClass = new AddHtmlElement();
   const commentsTableClass = new Table(tableContainer);
   const commentsTable = commentsTableClass.createTable();
   const amountOfComments = 10;
-  addCommentRows(amountOfComments, commentsTable, comments, commentsTableClass);
+  addHeader(commentsTable, commentsTableClass);
+  addCommentRows(
+    amountOfComments,
+    commentsTable,
+    comments,
+    commentsTableClass,
+    htmlClass
+  );
 }
 
-function addCommentRows(amount, table, comments, tableClass) {
+function addCommentRows(amount, table, comments, tableClass, htmlClass) {
   for (let i = 0; i < amount; i++) {
     let curRowData = getDataForRow(comments[i]);
     let id = getCommentId(curRowData);
-    let row = tableClass.addRow(table, curRowData);
-    row.setAttribute("id", id);
+    let row = tableClass.addRow(table, curRowData, id);
+    const lastRowCell = tableClass.addCell(row, "");
+    const rmvButton = addRemoveButton(
+      lastRowCell,
+      tableClass,
+      htmlClass,
+      id,
+      table
+    );
   }
 }
 
@@ -38,7 +53,7 @@ function getDataForRow(commentObj) {
     commentObj.name,
     commentObj.email,
     commentObj.body,
-    commentObj.postId
+    commentObj.id
   );
   return rowData;
 }
@@ -50,4 +65,21 @@ function addTableContainer() {
   return tableContainer;
 }
 
+function addHeader(table, tableClass) {
+  const headerCells = ["Name", "Email", "Body", "Action"];
+  tableClass.addHeader(table, headerCells);
+}
+
+function addRemoveButton(container, tableClass, htmlClass, id, table) {
+  const rmvButtonObj = {
+    container: container,
+    htmlClass: "remove-comment-btn",
+    text: "Remove",
+    type: "button",
+  };
+  const rmvButton = htmlClass.addElement(rmvButtonObj);
+  rmvButton.addEventListener("click", () => {
+    tableClass.removeRow(id, table);
+  });
+}
 renderMain();
