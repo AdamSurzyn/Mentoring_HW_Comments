@@ -10,6 +10,7 @@ async function renderMain() {
 }
 
 function addCommentsTable(comments) {
+  console.log(comments);
   const tableContainer = addTableContainer();
   const htmlClass = new AddHtmlElement();
   const commentsTableClass = new Table(tableContainer);
@@ -99,9 +100,37 @@ function addHighlightButton(container, tableClass, htmlClass, table) {
 
 function checkTableForBlasphemy(table, tableClass, words) {
   const tableChildren = [...table.children];
-  console.log(tableChildren);
   tableChildren.forEach((row) => {
     tableClass.highlightBlasphemousRow(row, words);
+  });
+}
+
+function createSearchForm(
+  container,
+  placeholder,
+  table,
+  tableClass,
+  htmlClass
+) {
+  const inputObj = {
+    container: container,
+    htmlClass: "search-form",
+    text: "",
+    type: "input",
+    placeholder: placeholder,
+    name: "",
+  };
+  const input = htmlClass.addElement(inputObj);
+  input.setAttribute("type", "text");
+  //TODO: Can't set "type" in the input field because type is used by the class to determine what type of html element is being created!
+
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      let name = e.srcElement.value;
+      this.searchFuntion(name, this.url);
+      //TODO: Create a search function for the table
+    }
   });
 }
 
