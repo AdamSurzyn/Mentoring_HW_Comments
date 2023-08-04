@@ -23,6 +23,12 @@ function addCommentsTable(comments) {
     commentsTableClass,
     htmlClass
   );
+  addHighlightButton(
+    document.body,
+    commentsTableClass,
+    htmlClass,
+    commentsTable
+  );
 }
 
 function addCommentRows(amount, table, comments, tableClass, htmlClass) {
@@ -31,13 +37,7 @@ function addCommentRows(amount, table, comments, tableClass, htmlClass) {
     let id = getCommentId(curRowData);
     let row = tableClass.addRow(table, curRowData, id);
     const lastRowCell = tableClass.addCell(row, "");
-    const rmvButton = addRemoveButton(
-      lastRowCell,
-      tableClass,
-      htmlClass,
-      id,
-      table
-    );
+    addRemoveButton(lastRowCell, tableClass, htmlClass, id, table);
   }
 }
 
@@ -82,4 +82,27 @@ function addRemoveButton(container, tableClass, htmlClass, id, table) {
     tableClass.removeRow(id, table);
   });
 }
+
+function addHighlightButton(container, tableClass, htmlClass, table) {
+  const blasphemy = ["sint", "corporis", "omnis"];
+  const highlightButtonObj = {
+    container: container,
+    htmlClass: "highlight-btn",
+    text: "Highlight Blasphemy!",
+    type: "button",
+  };
+  const highlightButton = htmlClass.addElement(highlightButtonObj);
+  highlightButton.addEventListener("click", () => {
+    checkTableForBlasphemy(table, tableClass, blasphemy);
+  });
+}
+
+function checkTableForBlasphemy(table, tableClass, words) {
+  const tableChildren = [...table.children];
+  console.log(tableChildren);
+  tableChildren.forEach((row) => {
+    tableClass.highlightBlasphemousRow(row, words);
+  });
+}
+
 renderMain();

@@ -21,10 +21,12 @@ class Table {
     table.appendChild(row);
     return row;
   }
+
   removeRow(rowId, table) {
     const rowToRemove = document.querySelector(`#row${rowId}`);
     table.removeChild(rowToRemove);
   }
+
   createTable() {
     const tableObj = {
       container: this.container,
@@ -35,6 +37,7 @@ class Table {
     const table = this.htmlCreate.addElement(tableObj);
     return table;
   }
+
   addHeader(table, headerData) {
     const headerRowObj = {
       container: table,
@@ -55,6 +58,7 @@ class Table {
     table.appendChild(headerRow);
     return headerRow;
   }
+
   addCell(row, text) {
     const cellObj = {
       container: row,
@@ -67,7 +71,25 @@ class Table {
     return cell;
   }
 
-  highlightBlasphemy() {}
+  highlightBlasphemousRow(row, words) {
+    const rowChildren = [...row.children];
+    rowChildren.forEach((cell) => {
+      let cellText = cell.innerHTML;
+      words.map((word) => {
+        if (cellText.includes(word)) {
+          row.classList.add("highlight-blasphemy");
+          return true;
+        }
+      });
+    });
+    return false;
+  }
+
+  searchtable() {}
+  markRow() {}
+
+  renderTable() {}
+  //TODO: Instead of creating a table with the table class separately - use the table class to create a table object to pass. To do this, render table?
 
   addTableToContainer(table) {
     this.container.replaceChildren();
