@@ -24,11 +24,12 @@ function addCommentsTable(comments) {
     commentsTableClass,
     htmlClass
   );
-  addHighlightButton(
+  createSearchForm(
     document.body,
+    "input blaspheny...",
+    commentsTable,
     commentsTableClass,
-    htmlClass,
-    commentsTable
+    htmlClass
   );
 }
 
@@ -98,10 +99,10 @@ function addHighlightButton(container, tableClass, htmlClass, table) {
   });
 }
 
-function checkTableForBlasphemy(table, tableClass, words) {
+function checkTableForBlasphemy(table, tableClass, word) {
   const tableChildren = [...table.children];
   tableChildren.forEach((row) => {
-    tableClass.highlightBlasphemousRow(row, words);
+    tableClass.highlightBlasphemousRow(row, word);
   });
 }
 
@@ -128,10 +129,13 @@ function createSearchForm(
     if (e.key === "Enter") {
       e.preventDefault();
       let name = e.srcElement.value;
-      this.searchFuntion(name, this.url);
+      checkTableForBlasphemy(table, tableClass, name);
       //TODO: Create a search function for the table
+      //TODO: You can search comments by id!!!
     }
   });
 }
+
+function searchFuntion() {}
 
 renderMain();

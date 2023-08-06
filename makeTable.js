@@ -71,22 +71,18 @@ class Table {
     return cell;
   }
 
-  highlightBlasphemousRow(row, words) {
+  highlightBlasphemousRow(row, word) {
     const rowChildren = [...row.children];
+    row.classList.remove("highlight-blasphemy");
     rowChildren.forEach((cell) => {
       let cellText = cell.innerHTML;
-      words.map((word) => {
-        if (cellText.includes(word)) {
-          row.classList.add("highlight-blasphemy");
-          return true;
-        }
-      });
+      if (cellText.includes(word) && word != "") {
+        row.classList.add("highlight-blasphemy");
+        return true;
+      }
     });
     return false;
   }
-
-  searchtable() {}
-  markRow() {}
 
   renderTable() {}
   //TODO: Instead of creating a table with the table class separately - use the table class to create a table object to pass. To do this, render table?
