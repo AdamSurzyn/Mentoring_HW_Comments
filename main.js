@@ -130,8 +130,6 @@ function createSearchForm(
       e.preventDefault();
       let name = e.srcElement.value;
       checkTableForBlasphemy(table, tableClass, name);
-      //TODO: Create a search function for the table
-      //TODO: You can search comments by id!!!
     }
   });
 }
